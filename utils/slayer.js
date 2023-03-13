@@ -1,4 +1,4 @@
-const { GRID_SIZE } = require('./gameUtils');
+const { GRID_SIZE } = require('../snakeGame/gameUtils');
 
 const initGame = () => {
   const state = createGameState();

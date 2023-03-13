@@ -9,8 +9,8 @@ const fileUpload = require('express-fileupload');
 const cookieParser = require('cookie-parser');
 const socket = require('socket.io');
 const Message = require('./models/Message');
-const { initGame, gameLoop, getUpdatedVelocity, makeId } = require('./utils/slayer.js');
-const { FRAME_RATE } = require('./utils/gameUtils');
+const { initGame, gameLoop, getUpdatedVelocity, makeId } = require('./snakeGame/snake.js');
+const { FRAME_RATE } = require('./snakeGame/gameUtils');
 
 //Routes
 const auth = require('./routes/auth');
