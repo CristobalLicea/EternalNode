@@ -105,28 +105,6 @@ io.on('connection', (socket) => {
   });
 
   //Snake functions
-  socket.on('keyDown', (key) => {
-    const roomName = clientRooms[socket.id];
-
-    if(!roomName) {
-      return;
-    }
-
-      try {
-        key = parseInt(key)
-      } catch(e) {
-        console.log(e);
-        return;
-      }
-
-    const vel = getUpdatedVelocity(key);
-
-    if(vel) {
-      snakeState[roomName].players[socket.number - 1].vel = vel;
-    }
-
-  });
-
   socket.on('newGame', () => {
 
     let roomName = makeId(5);
@@ -177,6 +155,28 @@ io.on('connection', (socket) => {
 
     startGameInterval(gameCode);
   })
+
+  socket.on('keyDown', (key) => {
+    const roomName = snakeRooms[socket.id];
+
+    if(!roomName) {
+      return;
+    }
+
+      try {
+        key = parseInt(key)
+      } catch(e) {
+        console.log(e);
+        return;
+      }
+
+    const vel = getUpdatedVelocity(key);
+
+    if(vel) {
+      snakeState[roomName].players[socket.number - 1].vel = vel;
+    }
+
+  });
 
   //battleship functions
   socket.on('newBattleshipGame', () => {
