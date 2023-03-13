@@ -56,9 +56,8 @@ const server = app.listen(
 
 const io = socket(server, {
   cors: {
-    //origin: "https://eternalapi1-crislicea.b4a.run"
     //origin: "http://localhost:3000"
-    origin: "https://eclectic-cajeta-b5290f.netlify.app"
+    origin: "https://codercristobalsocial.netlify.app"
   }
 });
 
