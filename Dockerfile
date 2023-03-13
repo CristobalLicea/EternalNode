@@ -1,15 +1,20 @@
-bashCopy code
-# Use the official Node.js image as the base image
-FROM node:18-apline
+# Use an official Node.js runtime as a parent image
+FROM node:14-alpine
 
-# Set the working directory in the container
-WORKDIR ./
+# Set the working directory to /app
+WORKDIR /app
 
-# Copy the application files into the working directory
-COPY ./
+# Copy package.json and package-lock.json to the working directory
+COPY package*.json ./
 
-# Install the application dependencies
-RUN npm install *
+# Install app dependencies
+RUN npm install
 
-# Define the entry point for the container
+# Copy the rest of the application code to the working directory
+COPY . .
+
+# Expose the port that the app listens on
+EXPOSE 3000
+
+# Set the command to start the app
 CMD ["npm", "start"]
