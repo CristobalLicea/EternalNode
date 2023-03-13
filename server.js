@@ -57,20 +57,21 @@ const server = app.listen(
 const io = socket(server, {
   cors: {
     //origin: "http://localhost:3000"
-    origin: "https://codercristobalsocial.netlify.app"
+    origin: "https://codercristobalsocial.netlify.app/"
   }
 });
 
 /*SocketIo*/
 var typingUsers = {};
-var state = {};
-var clientRooms = {};
+var snakeState = {};
+var snakeRooms = {};
 let battleshipRooms = {};
 let battleshipState ={};
 
 io.on('connection', (socket) => {
   console.log('A User has Connected');
 
+  //Chat functions
   socket.on("startType", (user, roomId) => {
     console.log(user + " is writing a message...");
     typingUsers[user] = roomId;
@@ -103,6 +104,7 @@ io.on('connection', (socket) => {
     });
   });
 
+  //Snake functions
   socket.on('keyDown', (key) => {
     const roomName = clientRooms[socket.id];
 
@@ -120,7 +122,7 @@ io.on('connection', (socket) => {
     const vel = getUpdatedVelocity(key);
 
     if(vel) {
-      state[roomName].players[socket.number - 1].vel = vel;
+      snakeState[roomName].players[socket.number - 1].vel = vel;
     }
 
   });
@@ -129,44 +131,44 @@ io.on('connection', (socket) => {
 
     let roomName = makeId(5);
 
-    clientRooms[socket.id] = roomName;
+    snakeRooms[socket.id] = roomName;
     io.to(socket.id).emit('roomCode', roomName);
 
-    state[roomName] = initGame();
-    io.to(socket.id).emit('gameState',JSON.stringify(state[roomName]))
+    snakeState[roomName] = initGame();
+    io.to(socket.id).emit('gameState',JSON.stringify(snakeState[roomName]))
 
     socket.join(roomName);
     socket.number = 1;
     io.emit('init', 1);
 
-    console.log(state[roomName])
+    console.log(snakeState[roomName])
   });
 
   socket.on('joinGame', (gameCode) => {
     const room = io.sockets.adapter.rooms[gameCode];
     console.log(gameCode)
 
-    clientRooms[socket.id] = gameCode;
+    snakeRooms[socket.id] = gameCode;
     socket.join(gameCode);
     socket.number = 2;
     io.emit('init', 2);
 
     const startGameInterval = (roomName) => {
       const intervalId = setInterval(() => {
-        const winner = gameLoop(state[roomName]);
+        const winner = gameLoop(snakeState[roomName]);
     
         if(!winner) {
-          emitGameState(roomName, state[roomName])
+          emitGameState(roomName, snakeState[roomName])
         } else {
           emitGameOver(roomName, winner)
           clearInterval(intervalId);
-          state[roomName] = initGame();
+          snakeState[roomName] = initGame();
         }
       }, 1000 / FRAME_RATE);
     }
 
-    const emitGameState = (roomName, state) => {
-      io.sockets.in(roomName).emit('gameState', JSON.stringify(state));
+    const emitGameState = (roomName, snakeState) => {
+      io.sockets.in(roomName).emit('gameState', JSON.stringify(snakeState));
     }
 
     const emitGameOver = (roomName, winner) => {
@@ -191,8 +193,10 @@ io.on('connection', (socket) => {
 
   socket.on('joinBattleshipGame', (battleshipCode) => {
     const room = io.sockets.adapter.rooms[battleshipCode]
+
+    const emitBattleshipState = () => {}
+    const emitBattleshipGameover = () => {}
   })
-  
 })
 
 process.on('unhandledRejection', (err) => {
