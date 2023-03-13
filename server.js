@@ -65,6 +65,8 @@ const io = socket(server, {
 var typingUsers = {};
 var state = {};
 var clientRooms = {};
+let battleshipRooms = {};
+let battleshipState ={};
 
 io.on('connection', (socket) => {
   console.log('A User has Connected');
@@ -172,6 +174,23 @@ io.on('connection', (socket) => {
     }
 
     startGameInterval(gameCode);
+  })
+
+  //battleship functions
+  socket.on('newBattleshipGame', () => {
+    let roomName = makeId(6);
+
+    battleshipRooms[socket.id] = roomName
+    io.to(socket.id).emit('battlshipCode', roomName);
+
+    battleshipState[roomName] = initBattleship();
+    socket.join(roomName);
+    socket.number = 1;
+    io.emit('init', 1)
+  })
+
+  socket.on('joinBattleshipGame', (battleshipCode) => {
+    const room = io.sockets.adapter.rooms[battleshipCode]
   })
   
 })
