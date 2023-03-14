@@ -188,7 +188,7 @@ io.on('connection', (socket) => {
 
     battleshipState[roomName] = initBattleship();
     io.to(socket.id).emit('battleshipState', JSON.stringify(battleshipState[roomName]))
-
+    io.to(socket.id).emit('battleshipPlace');
     socket.join(roomName);
     socket.number = 1;
     io.emit('init', 1)
