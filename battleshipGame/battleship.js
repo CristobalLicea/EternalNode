@@ -9,21 +9,18 @@ const createBattleshipState = (size = 10) => {
       name: '',
       board: [],
       nmeMap: [],
-      unitCount: 5
+      unitCount: 0
     },
     {
       name: '',
       board: [],
       nmeMap: [],
-      unitCount: 5
+      unitCount: 0
     }],
     size: size,
     phase: 'build',
     units: {
-      two: 1,
-      three: 2,
-      four: 1,
-      five: 1
+      one: 10
     }
   }
   for (let i = 0; i < size; i++) {
