@@ -10,7 +10,7 @@ const cookieParser = require('cookie-parser');
 const socket = require('socket.io');
 const Message = require('./models/Message');
 const { initGame, gameLoop, getUpdatedVelocity, makeId } = require('./snakeGame/snake.js');
-const { initBattleship } = require('./battleshipGame/battleship')
+const { initBattleship } = require('./battleshipGame/battleship');
 const { FRAME_RATE } = require('./snakeGame/gameUtils');
 
 //Routes
@@ -192,13 +192,33 @@ io.on('connection', (socket) => {
     socket.join(roomName);
     socket.number = 1;
     io.emit('init', 1)
+    emitPlaceShip()
+
+    const emitPlaceShip = () => {
+      io.to(socket.id).emit('battleshipPlace');
+    }
   })
 
   socket.on('joinBattleshipGame', (battleshipCode) => {
     const room = io.sockets.adapter.rooms[battleshipCode]
 
-    const emitBattleshipState = () => {}
-    const emitBattleshipGameover = () => {}
+    battleshipRooms[socket.id] = gameCode;
+    socket.join(gameCode);
+    socket.number = 2;
+    io.emit('init', 2);
+
+
+
+    const emitPlaceShip = (roomName) => {
+      io.sockets.in(roomName).emit('battleshipPlace');
+    }
+
+    const emitBattleshipState = (roomName, battleshipState) => {
+      io.sockets.in(roomName).emit('battleshipState', JSON.stringify(battleshipState));
+    }
+    const emitBattleshipGameover = (roomName, winner) => {
+      io.sockets.in(roomName).emit('battleshipGameOver', JSON.stringify({winner}));
+    }
   })
 })
 

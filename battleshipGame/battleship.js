@@ -9,28 +9,22 @@ const createBattleshipState = (size = 10) => {
       name: '',
       board: [],
       nmeMap: [],
-      units: {
-        two: 1,
-        three: 2,
-        four: 1,
-        five: 1
-      },
       unitCount: 5
     },
     {
       name: '',
       board: [],
       nmeMap: [],
-      units: {
-        two: 1,
-        three: 2,
-        four: 1,
-        five: 1
-      },
       unitCount: 5
     }],
     size: size,
-    phase: 'build'
+    phase: 'build',
+    units: {
+      two: 1,
+      three: 2,
+      four: 1,
+      five: 1
+    }
   }
   for (let i = 0; i < size; i++) {
     state.players[0].board[i] = [];
