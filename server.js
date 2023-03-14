@@ -183,7 +183,7 @@ io.on('connection', (socket) => {
     let roomName = makeId(6);
 
     battleshipRooms[socket.id] = roomName
-    io.to(socket.id).emit('battlshipCode', roomName);
+    io.to(socket.id).emit('battleshipCode', roomName);
 
     battleshipState[roomName] = initBattleship();
     socket.join(roomName);
