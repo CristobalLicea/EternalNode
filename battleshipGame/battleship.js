@@ -89,4 +89,4 @@ const makeBattleshipId = (n) => {
   return result;
 }
 
-createBattleshipState()
+export { initBattleship }

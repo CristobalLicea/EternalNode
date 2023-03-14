@@ -10,6 +10,7 @@ const cookieParser = require('cookie-parser');
 const socket = require('socket.io');
 const Message = require('./models/Message');
 const { initGame, gameLoop, getUpdatedVelocity, makeId } = require('./snakeGame/snake.js');
+const { initBattleship } = require('./battleshipGame/battleship')
 const { FRAME_RATE } = require('./snakeGame/gameUtils');
 
 //Routes
