@@ -192,11 +192,12 @@ io.on('connection', (socket) => {
     socket.join(roomName);
     socket.number = 1;
     io.emit('init', 1)
-    emitPlaceShip()
-
+  
     const emitPlaceShip = () => {
       io.to(socket.id).emit('battleshipPlace');
     }
+
+    emitPlaceShip()
   })
 
   socket.on('joinBattleshipGame', (battleshipCode) => {
