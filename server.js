@@ -57,8 +57,9 @@ const server = app.listen(
 
 const io = socket(server, {
   cors: {
-    origin: "http://localhost:3000"
+    //origin: "http://localhost:3000"
     //origin: "https://codercristobalsocial.netlify.app"
+    origin: "*"
   }
 });
 
