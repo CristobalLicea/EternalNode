@@ -210,6 +210,18 @@ io.on('connection', (socket) => {
       io.sockets.in(roomName).emit('battleshipGameOver', JSON.stringify({winner}));
     }
   })
+
+  socket.on('updateBattleshipState', (state) => {
+    const room = battleshipRooms[socket.id]
+
+    if (!room) {
+      return
+    }
+
+    if (state) {
+      battleshipState = state
+    }
+  })
 })
 
 process.on('unhandledRejection', (err) => {
