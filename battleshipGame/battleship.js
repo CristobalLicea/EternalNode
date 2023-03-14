@@ -89,4 +89,6 @@ const makeBattleshipId = (n) => {
   return result;
 }
 
-export { initBattleship }
+module.exports = {
+  initBattleship
+}
