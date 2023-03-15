@@ -189,7 +189,9 @@ io.on('connection', (socket) => {
 
     battleshipState[roomName] = initBattleship();
     await io.to(socket.id).emit('battleshipState', JSON.stringify(battleshipState[roomName]))
-    await io.to(socket.id).emit('battleshipPlace', JSON.stringify(battleshipState[roomName].units));
+    setTimeout(() => {
+      io.to(socket.id).emit('battleshipPlace', JSON.stringify(battleshipState[roomName].units))
+    }, 1500);
     socket.join(roomName);
     socket.number = 1;
     io.emit('init', 1)
