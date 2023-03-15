@@ -68,7 +68,7 @@ var typingUsers = {};
 var snakeState = {};
 var snakeRooms = {};
 let battleshipRooms = {};
-let battleshipState ={};
+let battleshipState =   {};
 
 io.on('connection', (socket) => {
   console.log('A User has Connected');
@@ -181,14 +181,14 @@ io.on('connection', (socket) => {
   });
 
   //battleship functions
-  socket.on('newBattleshipGame', async () => {
+  socket.on('newBattleshipGame', () => {
     let roomName = makeId(6);
 
     battleshipRooms[socket.id] = roomName
-    await io.to(socket.id).emit('battleshipCode', roomName);
+    io.to(socket.id).emit('battleshipCode', roomName);
 
     battleshipState[roomName] = initBattleship();
-    await io.to(socket.id).emit('battleshipState', JSON.stringify(battleshipState[roomName]))
+    io.to(socket.id).emit('battleshipState', JSON.stringify(battleshipState[roomName]))
     setTimeout(() => {
       io.to(socket.id).emit('battleshipPlace', JSON.stringify(battleshipState[roomName].units))
     }, 1500);
