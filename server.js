@@ -216,7 +216,7 @@ io.on('connection', (socket) => {
   socket.on('updateBattleshipState', (state) => {
     const room = battleshipRooms[socket.id]
     state = JSON.parse(state)
-    console.log(state)
+    console.log(state.players[0].board[0][0].mark)
     if (!room) {
       return
     }
