@@ -181,15 +181,15 @@ io.on('connection', (socket) => {
   });
 
   //battleship functions
-  socket.on('newBattleshipGame', () => {
+  socket.on('newBattleshipGame', async () => {
     let roomName = makeId(6);
 
     battleshipRooms[socket.id] = roomName
-    io.to(socket.id).emit('battleshipCode', roomName);
+    await io.to(socket.id).emit('battleshipCode', roomName);
 
     battleshipState[roomName] = initBattleship();
-    io.to(socket.id).emit('battleshipState', JSON.stringify(battleshipState[roomName]))
-    io.to(socket.id).emit('battleshipPlace', JSON.stringify(battleshipState[roomName].units));
+    await io.to(socket.id).emit('battleshipState', JSON.stringify(battleshipState[roomName]))
+    await io.to(socket.id).emit('battleshipPlace', JSON.stringify(battleshipState[roomName].units));
     socket.join(roomName);
     socket.number = 1;
     io.emit('init', 1)
