@@ -215,14 +215,18 @@ io.on('connection', (socket) => {
   socket.on('updateBattleshipState', (state) => {
     const room = battleshipRooms[socket.id]
     state = JSON.parse(state)
+    console.log('--State--')
     console.log(state)
+    console.log('--State--')
     if (!room) {
       return
     }
 
     if (state) {
       battleshipState[room].players[socket.number] = state
+      console.log('--NewState--')
       console.log(battleshipState[room])
+      console.log('--NewState--')
     }
   })
 })
