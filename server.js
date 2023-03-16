@@ -223,7 +223,7 @@ io.on('connection', (socket) => {
     }
 
     if (state) {
-      battleshipState.players[1].board = state
+      battleshipState[room].players[0].board = state
     }
   })
 })
