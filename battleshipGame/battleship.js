@@ -21,7 +21,9 @@ const createBattleshipState = (size = 10) => {
     phase: 'build',
     units: {
       one: 10
-    }
+    },
+    player1HasPlaced: false,
+    player2HasPlaced: false
   }
   for (let i = 0; i < size; i++) {
     state.players[0].board[i] = [];
