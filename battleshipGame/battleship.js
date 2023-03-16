@@ -20,7 +20,8 @@ const createBattleshipState = (size = 10) => {
     size: size,
     phase: 'build',
     units: {
-      one: 10
+      1: 10,
+      2: 2
     },
     player1HasPlaced: false,
     player2HasPlaced: false
@@ -40,36 +41,6 @@ const createBattleshipState = (size = 10) => {
   return state;
 }
 
-const placeUnits = () => {
-
-}
-
-const markSpace = (x, y, symbol, mapArr) => {
-  boardArr[x][y] = symbol;
-}
-
-const attackSpace = (x, y, boardArr, mapArr) => {
-  if (boardArr[x][y] == 'O') {
-    markSpace(x, y, '!', mapArr)
-  }
-}
-
-const battleshipLoop = (state) => {
-  if (!state) {
-    return;
-  }
-
-  const player1 = state.players[0];
-  const player2 = state.players[1];
-
-  if (player1.unitCount === 0) {
-    return 2;
-  }
-
-  if (player2.unitCount === 0) {
-    return 1;
-  }
-}
 
 const makeBattleshipId = (n) => {
   let result = '';
