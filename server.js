@@ -196,12 +196,15 @@ io.on('connection', (socket) => {
   })
 
   socket.on('joinBattleshipGame', (battleshipCode) => {
-    const room = io.sockets.adapter.rooms[battleshipCode]
-
     battleshipRooms[socket.id] = gameCode;
     socket.join(gameCode);
-    socket.number = 2;
-    io.emit('init', 2);
+    socket.number = 1;
+
+    io.to(socket.id).emit('battleshipState', JSON.stringify(battleshipState[gameCode].players[socket.number]));
+
+    setTimeout(() => {
+      io.to(socket.id).emit('battleshipPlace', JSON.stringify(battleshipState[gameCode].units))
+    }, 1500);
 
     const emitBattleshipState = (roomName, battleshipState) => {
       io.sockets.in(roomName).emit('battleshipState', JSON.stringify(battleshipState));
