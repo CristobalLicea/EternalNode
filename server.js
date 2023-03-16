@@ -206,12 +206,12 @@ io.on('connection', (socket) => {
       io.to(socket.id).emit('battleshipPlace', JSON.stringify(battleshipState[gameCode].units))
     }, 1500);
 
-    const emitBattleshipState = (roomName, battleshipState) => {
+    /*const emitBattleshipState = (roomName, battleshipState) => {
       io.sockets.in(roomName).emit('battleshipState', JSON.stringify(battleshipState));
     }
     const emitBattleshipGameover = (roomName, winner) => {
       io.sockets.in(roomName).emit('battleshipGameOver', JSON.stringify({winner}));
-    }
+    }*/
   })
 
   socket.on('updateBattleshipState', (state) => {
@@ -233,6 +233,7 @@ io.on('connection', (socket) => {
       }
       console.log('--NewState--')
       console.log(battleshipState[room])
+      console.log(socket.number)
       console.log('--NewState--')
     }
     if (battleshipState[room].player2HasPlaced && battleshipState[room].player1HasPlaced) {
