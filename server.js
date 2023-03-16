@@ -195,7 +195,7 @@ io.on('connection', (socket) => {
     socket.join(roomName);
   })
 
-  socket.on('joinBattleshipGame', (battleshipCode) => {
+  socket.on('joinBattleshipGame', (gameCode) => {
     battleshipRooms[socket.id] = gameCode;
     socket.join(gameCode);
     socket.number = 1;
