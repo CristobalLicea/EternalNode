@@ -239,6 +239,7 @@ io.on('connection', (socket) => {
     if (battleshipState[room].player2HasPlaced && battleshipState[room].player1HasPlaced) {
       battleshipState[room].phase = 'fire';
       console.log('firing')
+      io.sockets.in(room).emit('chooseTarget', 'choose target')
     }
   })
 
