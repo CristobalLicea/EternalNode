@@ -193,7 +193,7 @@ io.on('connection', (socket) => {
       io.to(socket.id).emit('battleshipPlace', JSON.stringify(battleshipState[roomName].units))
     }, 1500);
     socket.join(roomName);
-    socket.number = 1;
+    socket.number = 0;
   })
 
   socket.on('joinBattleshipGame', (battleshipCode) => {
@@ -224,6 +224,7 @@ io.on('connection', (socket) => {
 
     if (state) {
       battleshipState[room].players[0].board = state
+      console.log(battleshipState[room].players[0].board)
       console.log(battleshipState[room])
     }
   })
