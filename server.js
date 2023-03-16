@@ -224,6 +224,7 @@ io.on('connection', (socket) => {
 
     if (state) {
       battleshipState[room].players[0].board = state
+      console.log(battleshipState[room])
     }
   })
 })
