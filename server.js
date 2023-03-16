@@ -125,7 +125,6 @@ io.on('connection', (socket) => {
   });
 
   socket.on('joinGame', (gameCode) => {
-    const room = io.sockets.adapter.rooms[gameCode];
     console.log(gameCode)
 
     snakeRooms[socket.id] = gameCode;

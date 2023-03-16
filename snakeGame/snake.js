@@ -48,7 +48,6 @@ const createGameState = () => {
 }
 
 const gameLoop = (state) => {
-  console.log(state)
   if(!state) {
     return;
   }
