@@ -190,9 +190,6 @@ io.on('connection', (socket) => {
     battleshipState[roomName] = initBattleship();
     battleshipState[roomName].players[socket.number].name = name;
     io.to(socket.id).emit('battleshipState', JSON.stringify(battleshipState[roomName].players[socket.number]))
-    setTimeout(() => {
-      io.to(socket.id).emit('battleshipPlace', JSON.stringify(battleshipState[roomName].units))
-    }, 1500);
     socket.join(roomName);
   })
 
@@ -201,6 +198,8 @@ io.on('connection', (socket) => {
     socket.join(data.code);
     console.log(data.code)
     socket.number = 1;
+
+    battleshipState[roomName].players[socket.number].name = data.name;
 
     io.to(socket.id).emit('battleshipState', JSON.stringify(battleshipState[gameCode].players[socket.number]));
 
