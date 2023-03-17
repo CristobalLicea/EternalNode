@@ -199,7 +199,7 @@ io.on('connection', (socket) => {
     console.log(data.code)
     socket.number = 1;
 
-    battleshipState[roomName].players[socket.number].name = data.name;
+    battleshipState[data.code].players[socket.number].name = data.name;
 
     io.to(socket.id).emit('battleshipState', JSON.stringify(battleshipState[gameCode].players[socket.number]));
 
