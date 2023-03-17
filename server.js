@@ -197,7 +197,7 @@ io.on('connection', (socket) => {
     data = JSON.parse(data);
     battleshipRooms[socket.id] = data.code;
     socket.join(data.code);
-    console.log(data.code)
+    console.log(data)
     socket.number = 1;
 
     //battleshipState[data.code].players[socket.number].name = data.name;
