@@ -200,7 +200,7 @@ io.on('connection', (socket) => {
     console.log(data.code)
     socket.number = 1;
 
-    io.to(socket.id).emit('battleshipState', JSON.stringify(battleshipState[gameCode].players[socket.number]));
+    io.to(socket.id).emit('battleshipState', JSON.stringify(battleshipState[data.code].players[socket.number]));
 
     setTimeout(() => {
       io.sockets.in(roomName).emit('battleshipPlace', JSON.stringify(battleshipState[gameCode].units))
