@@ -194,6 +194,7 @@ io.on('connection', (socket) => {
   })
 
   socket.on('joinBattleshipGame', (data) => {
+    data = JSON.parse(data);
     battleshipRooms[socket.id] = data.code;
     socket.join(data.code);
     console.log(data.code)
