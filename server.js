@@ -180,14 +180,15 @@ io.on('connection', (socket) => {
   });
 
   //battleship functions
-  socket.on('newBattleshipGame', () => {
+  socket.on('newBattleshipGame', (name) => {
     let roomName = makeId(6);
     socket.number = 0;
 
-    battleshipRooms[socket.id] = roomName
+    battleshipRooms[socket.id] = roomName;
     io.to(socket.id).emit('battleshipCode', roomName);
 
     battleshipState[roomName] = initBattleship();
+    battleshipState[roomName].players[socket.number].name = name;
     io.to(socket.id).emit('battleshipState', JSON.stringify(battleshipState[roomName].players[socket.number]))
     setTimeout(() => {
       io.to(socket.id).emit('battleshipPlace', JSON.stringify(battleshipState[roomName].units))
