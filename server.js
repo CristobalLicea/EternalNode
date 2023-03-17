@@ -203,7 +203,7 @@ io.on('connection', (socket) => {
     io.to(socket.id).emit('battleshipState', JSON.stringify(battleshipState[data.code].players[socket.number]));
 
     setTimeout(() => {
-      io.sockets.in(roomName).emit('battleshipPlace', JSON.stringify(battleshipState[gameCode].units))
+      io.sockets.in(data.code).emit('battleshipPlace', JSON.stringify(battleshipState[gameCode].units))
     }, 1000);
 
     /*const emitBattleshipState = (roomName, battleshipState) => {
