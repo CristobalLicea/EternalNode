@@ -197,10 +197,10 @@ io.on('connection', (socket) => {
     data = JSON.parse(data);
     battleshipRooms[socket.id] = data.code;
     socket.join(data.code);
-    console.log(data)
+    console.log(data.code)
     socket.number = 1;
 
-    //battleshipState[data.code].players[socket.number].name = data.name;
+    battleshipState[data.code].players[socket.number].name = data.name;
 
     //io.to(socket.id).emit('battleshipState', JSON.stringify(battleshipState[gameCode].players[socket.number]));
 
