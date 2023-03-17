@@ -196,9 +196,10 @@ io.on('connection', (socket) => {
     socket.join(roomName);
   })
 
-  socket.on('joinBattleshipGame', (gameCode) => {
-    battleshipRooms[socket.id] = gameCode;
-    socket.join(gameCode);
+  socket.on('joinBattleshipGame', (data) => {
+    battleshipRooms[socket.id] = data.code;
+    socket.join(data.code);
+    console.log(data.code)
     socket.number = 1;
 
     io.to(socket.id).emit('battleshipState', JSON.stringify(battleshipState[gameCode].players[socket.number]));
@@ -218,9 +219,6 @@ io.on('connection', (socket) => {
   socket.on('updateBattleshipState', (state) => {
     const room = battleshipRooms[socket.id]
     state = JSON.parse(state)
-    console.log('--State--')
-    console.log(state)
-    console.log('--State--')
     if (!room) {
       return
     }
@@ -230,21 +228,16 @@ io.on('connection', (socket) => {
       if (socket.number === 0) {
         battleshipState[room].player1HasPlaced = true;
       } else if (socket.number === 1) {
-        battleshipState[room].player2HasPlaced = true
+        battleshipState[room].player2HasPlaced = true;
       }
-      console.log('--NewState--')
-      console.log(battleshipState[room])
-      console.log(socket.number)
-      console.log('--NewState--')
     }
+
     if (battleshipState[room].player2HasPlaced && battleshipState[room].player1HasPlaced) {
       battleshipState[room].phase = 'fire';
-      console.log('firing')
-      io.sockets.in(room).emit('chooseTarget', 'choose target')
+      console.log('firing');
+      io.sockets.in(room).emit('chooseTarget', 'choose target');
     }
   })
-
-
 })
 
 process.on('unhandledRejection', (err) => {
