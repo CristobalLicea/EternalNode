@@ -195,7 +195,7 @@ io.on('connection', (socket) => {
   })
 
   socket.on('joinBattleshipGame', (data) => {
-    if (!data || !data.code) {
+    if (!data) {
       return
     }
     data = JSON.parse(data);
