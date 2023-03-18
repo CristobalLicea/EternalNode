@@ -189,29 +189,24 @@ io.on('connection', (socket) => {
 
     battleshipState[roomName] = initBattleship();
     battleshipState[roomName].players[socket.number].name = name;
+    battleshipState[roomName].players[1].nmeName = name;
     io.to(socket.id).emit('battleshipState', JSON.stringify(battleshipState[roomName].players[socket.number]))
     socket.join(roomName);
   })
 
   socket.on('joinBattleshipGame', (data) => {
+    if (!data || !data.code) {
+      return
+    }
     data = JSON.parse(data);
     battleshipRooms[socket.id] = data.code;
     socket.join(data.code);
-    console.log(data.code)
     socket.number = 1;
+    battleshipState[data.code].players[socket.number].name = data.name;
+    battleshipState[data.code].players[0].nmeName = data.name;
 
     io.to(socket.id).emit('battleshipState', JSON.stringify(battleshipState[data.code].players[socket.number]));
-
-    setTimeout(() => {
-      io.sockets.in(data.code).emit('battleshipPlace', JSON.stringify(battleshipState[data.code].units))
-    }, 1000);
-
-    /*const emitBattleshipState = (roomName, battleshipState) => {
-      io.sockets.in(roomName).emit('battleshipState', JSON.stringify(battleshipState));
-    }
-    const emitBattleshipGameover = (roomName, winner) => {
-      io.sockets.in(roomName).emit('battleshipGameOver', JSON.stringify({winner}));
-    }*/
+    io.sockets.in(data.code).emit('buildPhase', JSON.stringify(battleshipState[data.code].units))
   })
 
   socket.on('updateBattleshipState', (state) => {
@@ -232,8 +227,41 @@ io.on('connection', (socket) => {
 
     if (battleshipState[room].player2HasPlaced && battleshipState[room].player1HasPlaced) {
       battleshipState[room].phase = 'fire';
-      console.log('firing');
-      io.sockets.in(room).emit('chooseTarget', 'choose target');
+      io.sockets.in(room).emit('player2Fire');
+    }
+  })
+
+  socket.on('player1Fire', (data) => {
+    data = JSON.parse(data)
+    let x = data.x;
+    let y = data.y;
+    let room = battleshipRooms[socket.id]
+
+    if (battleshipState[room].players[1].board[x][y].occupied === true) {
+      battleshipState[room].players[1].board[x][y].hit = true;
+      battleshipState[room].players[0].nmeMap[x][y].occupied = true;
+      battleshipState[room].players[0].nmeMap[x][y].firedAt = true;
+      console.log('hit!')
+    } else {
+      battleshipState[room].players[0].nmeMap[x][y].firedAt = true;
+      console.log('miss')
+    }
+  })
+
+  socket.on('player2Fire', (data) => {
+    data = JSON.parse(data)
+    let x = data.x;
+    let y = data.y;
+    let room = battleshipRooms[socket.id]
+
+    if (battleshipState[room].players[0].board[x][y].occupied === true) {
+      battleshipState[room].players[0].board[x][y].hit = true;
+      battleshipState[room].players[1].nmeMap[x][y].occupied = true;
+      battleshipState[room].players[1].nmeMap[x][y].firedAt = true;
+      console.log('hit!')
+    } else {
+      battleshipState[room].players[1].nmeMap[x][y].firedAt = true;
+      console.log('miss')
     }
   })
 })

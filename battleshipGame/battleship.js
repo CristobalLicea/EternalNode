@@ -7,12 +7,14 @@ const createBattleshipState = (size = 10) => {
   let state = {
     players: [{
       name: '',
+      nmeName: '',
       board: [],
       nmeMap: [],
       unitCount: 0
     },
     {
       name: '',
+      nmeName: '',
       board: [],
       nmeMap: [],
       unitCount: 0
@@ -32,8 +34,8 @@ const createBattleshipState = (size = 10) => {
     state.players[0].nmeMap[i] = [];
     state.players[1].nmeMap[i] = [];
     for (let j = 0; j < size; j++) {
-      state.players[0].board[i][j] = { mark: '-', x: i, y: j, space: i + ' ' + j, occupied: false };
-      state.players[1].board[i][j] = { mark: '-', x: i, y: j, space: i + ' ' + j, occupied: false }
+      state.players[0].board[i][j] = { mark: '-', x: i, y: j, space: i + ' ' + j, occupied: false, hit: false };
+      state.players[1].board[i][j] = { mark: '-', x: i, y: j, space: i + ' ' + j, occupied: false, hit: false }
       state.players[0].nmeMap[i][j] = { mark: '-', x: i, y: j, space: i + ' ' + j, occupied: false, firedAt: false }
       state.players[1].nmeMap[i][j] = { mark: '-', x: i, y: j, space: i + ' ' + j, occupied: false, firedAt: false }
     }
