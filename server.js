@@ -206,7 +206,11 @@ io.on('connection', (socket) => {
     battleshipState[data.code].players[0].nmeName = data.name;
     console.log('emitting Build Phase')
     io.to(socket.id).emit('battleshipState', JSON.stringify(battleshipState[data.code].players[socket.number]));
-    io.sockets.in(data.code).emit('buildPhase', JSON.stringify(battleshipState[data.code].units))
+    io.sockets.in(data.code).emit('battleshipGameStart')
+    setTimeout(() => {
+      io.sockets.in(data.code).emit('buildPhase', JSON.stringify(battleshipState[data.code].units))
+    }, 3000);
+    
   })
 
   socket.on('updateBattleshipState', (state) => {
