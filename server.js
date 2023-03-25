@@ -47,7 +47,7 @@ app.use('/api/v1/message', message);
 app.use(errorHandler);
 
 app.get('/', (req, res) => {
-  res.send("Hello! From Cristobal's Bookstagram, we are listening. :)");
+  res.send("Hello! From Cristobal's Website, we are listening. :)");
 });
 
 const server = app.listen(
@@ -181,17 +181,17 @@ io.on('connection', (socket) => {
 
   //battleship functions
   socket.on('newBattleshipGame', (name) => {
-    let roomName = makeId(6);
+    let roomCode = makeId(6);
     socket.number = 0;
 
-    battleshipRooms[socket.id] = roomName;
-    io.to(socket.id).emit('battleshipCode', roomName);
+    battleshipRooms[socket.id] = roomCode;
+    io.to(socket.id).emit('battleshipCode', roomCode);
 
-    battleshipState[roomName] = initBattleship();
-    battleshipState[roomName].players[socket.number].name = name;
-    battleshipState[roomName].players[1].nmeName = name;
-    io.to(socket.id).emit('battleshipState', JSON.stringify(battleshipState[roomName].players[socket.number]))
-    socket.join(roomName);
+    battleshipState[roomCode] = initBattleship();
+    battleshipState[roomCode].players[socket.number].name = name;
+    battleshipState[roomCode].players[1].nmeName = name;
+    io.to(socket.id).emit('battleshipState', JSON.stringify(battleshipState[roomCode].players[socket.number]))
+    socket.join(roomCode);
   })
 
   socket.on('joinBattleshipGame', (data) => {
@@ -204,7 +204,7 @@ io.on('connection', (socket) => {
     socket.number = 1;
     battleshipState[data.code].players[socket.number].name = data.name;
     battleshipState[data.code].players[0].nmeName = data.name;
-
+    console.log('emitting Build Phase')
     io.to(socket.id).emit('battleshipState', JSON.stringify(battleshipState[data.code].players[socket.number]));
     io.sockets.in(data.code).emit('buildPhase', JSON.stringify(battleshipState[data.code].units))
   })
@@ -219,8 +219,10 @@ io.on('connection', (socket) => {
     if (state) {
       battleshipState[room].players[socket.number] = state
       if (socket.number === 0) {
+        console.log('p;layer 1 has placed')
         battleshipState[room].player1HasPlaced = true;
       } else if (socket.number === 1) {
+        console.log('p;layer 2 has placed')
         battleshipState[room].player2HasPlaced = true;
       }
     }
